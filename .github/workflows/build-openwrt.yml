@@ -48,6 +48,7 @@ jobs:
         sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
         sudo -E apt-get -qq update
         sudo -E apt-get -qq install $(curl -fsSL git.io/depends-ubuntu-2004)
+        sudo -E apt-get -qq install build-essential gawk gcc-multilib flex git gettext libncurses5-dev libssl-dev python3-distutils zlib1g-dev
         sudo -E apt-get -qq autoremove --purge
         sudo -E apt-get -qq clean
         sudo timedatectl set-timezone "$TZ"
@@ -97,21 +98,21 @@ jobs:
         make download -j8
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
-        ln -s feeds/lomorage/mk_tarball.sh mk_tarball.sh
-        ln -s feeds/lomorage/build_lomod.sh build_lomod.sh
-        ln -s feeds/lomorage/release_lomod.sh release_lomod.sh
 
     - name: Compile the firmware
       id: compile
       run: |
         cd Entware
+        ln -s feeds/lomorage/mk_tarball.sh mk_tarball.sh
+        ln -s feeds/lomorage/build_lomod.sh build_lomod.sh
+        ln -s feeds/lomorage/release_lomod.sh release_lomod.sh
         echo -e "$(nproc) thread compile"
         ./build_lomod.sh mipsel-3.4
-        ./mk_tarball.sh mipsel-3.4
         echo "::set-output name=status::success"
         grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
         [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV
         echo "FILE_DATE=_$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
+        ./mk_tarball.sh mipsel-3.4
 
     - name: Check space usage
       if: (!cancelled())
