@@ -16,6 +16,6 @@
 # Add a feed source
 #echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.default
 #echo 'src-git passwall https://github.com/xiaorouji/openwrt-passwall' >>feeds.conf.default
-make package/symlinks
+#make package/symlinks
 cp -v configs/mipsel-3.4.config .config
 #make -j$(nproc)
