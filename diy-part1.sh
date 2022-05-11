@@ -22,4 +22,10 @@ cp -v configs/mipsel-3.4.config .config
 make -j$(nproc)
 make -j `nproc` tools/install V=s
 make -j `nproc` toolchain/install V=s
+rm -f feeds.conf.default
+touch feeds.conf.default
 echo 'src-git lomorage https://github.com/lomorage/openwrt-packages' >>feeds.conf.default
+echo 'src-git packages https://git.openwrt.org/feed/packages.git' >>feeds.conf.default
+echo 'src-git luci https://git.openwrt.org/project/luci.git' >>feeds.conf.default
+echo 'src-git routing https://git.openwrt.org/feed/routing.git' >>feeds.conf.default
+echo 'src-git telephony https://git.openwrt.org/feed/telephony.git' >>feeds.conf.default
