@@ -14,8 +14,12 @@
 #sed -i 's/^#\(.*helloworld\)/\1/' feeds.conf.default
 
 # Add a feed source
-#echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.default
+
 #echo 'src-git passwall https://github.com/xiaorouji/openwrt-passwall' >>feeds.conf.default
-#make package/symlinks
+make package/symlinks
 cp -v configs/mipsel-3.4.config .config
-#make -j$(nproc)
+#Rebuild the repository
+make -j$(nproc)
+make -j `nproc` tools/install V=s
+make -j `nproc` toolchain/install V=s
+echo 'src-git lomorage https://github.com/lomorage/openwrt-packages' >>feeds.conf.default
