@@ -18,4 +18,4 @@
 #echo 'src-git passwall https://github.com/xiaorouji/openwrt-passwall' >>feeds.conf.default
 make package/symlinks
 cp -v configs/mipsel-3.4.config .config
-make -j$(nproc)
+#make -j$(nproc)
